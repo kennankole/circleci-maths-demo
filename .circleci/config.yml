@@ -23,10 +23,4 @@ jobs: # A basic unit of work in a run
                 - "venv"
         - run:
             command: |
-                pipenv run flake8 --exclude=venv* --statistics
                 pipenv run pytest -v --cov=caluculator
-        - store_test_results:
-            path: test-results
-        - store_artifacts:
-            path: test-results
-            destination: tr1
