@@ -1,0 +1,31 @@
+version: 2 #Using CircleCI 2.0
+jobs: # A basic unit of work in a run
+  build:
+
+    working_directory: ~/circleci-math-demo
+    docker:
+        - image: circleci/python:3.8.2
+          environment:
+            PIPENV_VENV_IN_PROJECT: true
+    steps:
+        - checkout 
+        - run: sudo chown -R circleci:circleci /usr/local/bin
+        - run: sudo chown -R circleci:circleci /usr/local/lib/python3.8/site-packages
+        - restore_cache:
+            key: deps9-{{ .Branch}}-{{ checksum "Pipfile.lock" }}
+        - run:
+            command: |
+                sudo pip install pipenv
+                pipenv install
+        - save_cache:
+            key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+            paths:
+                - "venv"
+        - run:
+            command: |
+                pipenv run pytest
+        - store_test_results:
+            path: test-results
+        - store_artifacts:
+            path: test-results
+            destination: tr1
