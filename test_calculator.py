@@ -12,3 +12,6 @@ class TestCalculator:
 
     def test_substract(self):
         assert 2 == caluculator.substract(4, 2)
+
+    def test_mulitplication(self):
+        assert 100 == caluculator.multiply(10, 10)
